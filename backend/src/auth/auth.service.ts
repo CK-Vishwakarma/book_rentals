@@ -29,7 +29,7 @@ export class AuthService {
         }
     }
     // SignIn user
-    async signInUser(data: SignInDto,response?:Response): Promise<string> {
+    async signInUser(data: SignInDto,response?:Response): Promise<{access_token:string,email:string}> {
         const { email, password } = data
         const checkUser = await this.prisma.user.findUnique({ where: { email } })
         if (!checkUser) {
@@ -46,7 +46,12 @@ export class AuthService {
             throw new ForbiddenException()
         }
         response.cookie("access_token",access_token)
-        return "Logged in successfully."
+        const responseData ={
+            access_token:access_token,
+            email:email,
+            role:checkUser.role
+        }
+        return responseData
     }
     // Signout user
     async signOutUser(response:Response):Promise<string>{
