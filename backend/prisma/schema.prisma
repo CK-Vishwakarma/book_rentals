@@ -11,22 +11,10 @@ model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   password  String
-  role      Role     @default(MEMBER)
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt()
+  role      Role
 }
 
 enum Role {
   ADMIN
   MEMBER
 }
-
-model Book {
-  id            Int       @id @default(autoincrement())
-  title         String    @unique
-  description   String
-  author        String
-  publishedYear Int
-  quantity      Int
-}
-
